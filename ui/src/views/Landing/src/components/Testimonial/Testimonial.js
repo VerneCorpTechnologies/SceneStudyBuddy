@@ -25,7 +25,7 @@ const Testimonial = () => {
                     lineHeight: '49px',
                     textAlign: 'center'
                 }}>
-                    See Why Actors Love Scene Study Buddy
+                    See Why Actors Love SceneStudyBuddy&trade;
                 </Typography>
                 <Box sx={{
                 }}>
@@ -47,7 +47,7 @@ const Testimonial = () => {
                         lineHeight: '49px',
                         textAlign: 'justify'
                     }}>
-                        Actors love Scene Study Buddy because it’s an AI-powered scene reader that helps them practice by reading the Other characters' lines, making rehearsal more dynamic and convenient.
+                        Actors love SceneStudyBuddy&trade; because it’s an AI-powered scene reader that helps them practice by reading the Other characters' lines, making rehearsal more dynamic and convenient.
                     </Typography>
                 </Box>
 

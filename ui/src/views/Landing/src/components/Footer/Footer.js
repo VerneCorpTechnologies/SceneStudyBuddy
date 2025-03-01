@@ -71,7 +71,7 @@ const Footer = () => {
                                 fontWeight: '500',
                                 textAlign: 'center'
                             }}>
-                                &copy;   {new Date().getFullYear()} SceneStudyBuddy. All rights reserved.
+                                &copy;   {new Date().getFullYear()} SceneStudyBuddy&trade;. All rights reserved.
                             </Typography>
                     </Grid>
                 </Grid>

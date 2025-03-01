@@ -28,15 +28,6 @@ const MainRoutes = {
       element: <Dashboard />
     },
     {
-      path: 'dashboard',
-      children: [
-        {
-          path: 'scenes',
-          element: <Dashboard />
-        }
-      ]
-    },
-    {
       path: 'scene',
       element: <SamplePage />
     }

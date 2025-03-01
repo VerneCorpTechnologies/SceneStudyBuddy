@@ -14,7 +14,7 @@ const About = () => {
                     fontSize: '20px',
                     fontWeight: 600,
                     color: TERTIARY_COLOR
-                }} >What is Study Buddy?</Typography>
+                }} >What is SceneStudyBuddy&trade;?</Typography>
 
                 <Typography sx={{
                     fontSize: '40px',
@@ -23,7 +23,7 @@ const About = () => {
                     fontWeight: 400,
                     color: '#1E1E1E'
                 }} className='aboutText'>
-                    Scene Study Buddy is an <span className='highlight'> AI-powered</span> 
+                    SceneStudyBuddy&trade; is an <span className='highlight'> AI-powered</span> 
                     script reader designed to help you practice your lines in a dynamic and efficient way.
                     It <span className='highlight'>reads the Other characters' lines </span>
                     aloud, allowing you to focus solely on your performance. 
@@ -31,7 +31,7 @@ const About = () => {
                     This feature helps you <span className='highlight'> rehearse </span>
                     in a realistic setting, providing the opportunity to work on timing, delivery, 
                     and emotional pacing without the need for anOther person to read the opposite lines.
-                    Whether you're preparing for auditions or perfecting a scene, Scene Study Buddy makes practice more flexible and engaging.
+                    Whether you're preparing for auditions or perfecting a scene, SceneStudyBuddy&trade; makes practice more flexible and engaging.
                 </Typography>
             </Container>
         </>

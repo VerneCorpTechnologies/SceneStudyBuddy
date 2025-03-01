@@ -15,10 +15,6 @@ const LandingRoute = {
       {
         path: '/',
         element: <Landing />
-      },
-      {
-        path: '/landing',
-        element: <Landing />
       }
     ]
   };

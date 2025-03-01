@@ -23,7 +23,8 @@ const CallToAction = () => {
                     transform: 'translateY(-50%)'
                 }}>
                     <img style={{
-                        width: 132
+                        width: 132,
+                        borderRadius: 28
                     }} src={robot} alt="" />
                 </Box>
 
@@ -34,7 +35,7 @@ const CallToAction = () => {
                 }}>
                     <span style={{
                         color: '#FFFFFF'
-                    }}>Register</span> for Scene Study Buddy <br /> Start perfecting your craft today.
+                    }}>Register</span> for SceneStudyBuddy&trade; <br /> Start perfecting your craft today.
                 </Typography>
 
 
@@ -48,7 +49,7 @@ const CallToAction = () => {
                 </Typography>
 
 
-                <Button variant="contained" sx={{
+                <Button variant="contained" href='/register/' sx={{
                     width: 200,
                     height: 50,
                     fontWeight: '700',
@@ -73,7 +74,7 @@ const CallToAction = () => {
                     mt: 5,
                     pb: 10
                 }}>
-                    Join the THOUSANDS of actors who love Scene Study Buddy.
+                    Join the THOUSANDS of actors who love SceneStudyBuddy&trade;.
                 </Typography>
 
             </Box>

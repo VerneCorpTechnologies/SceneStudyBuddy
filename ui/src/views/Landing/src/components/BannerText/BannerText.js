@@ -15,7 +15,7 @@ const BannerText = () => {
                 lineHeight: '78.02px',
                 textAlign: 'center'
             }}>
-                Scene Study <span className='food-text'>Buddy</span>,<br />
+                SceneStudy<span className='food-text'>Buddy&trade;</span>,<br />
                 Rehearse, run lines and prepare for auditions with <span className='doorstep-text'>AI</span>
             </Typography>
         </Container>
