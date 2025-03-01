@@ -1,8 +1,8 @@
 // assets
-import { IconBrandChrome, IconHelp } from '@tabler/icons';
+import { IconFileDescription } from '@tabler/icons';
 
 // constant
-const icons = { IconBrandChrome, IconHelp };
+const icons = { IconFileDescription };
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
@@ -11,19 +11,12 @@ const Other = {
   type: 'group',
   children: [
     {
-      id: 'sample-page',
-      title: 'Retirement Calculator',
+      id: 'create-a-scene',
+      title: 'Create a scene',
       type: 'item',
-      url: '/sample-page/',
-      icon: icons.IconBrandChrome,
+      url: '/scene/',
+      icon: icons.IconFileDescription,
       breadcrumbs: false
-    },
-    {
-      id: 'documentation',
-      title: 'Wealth Building Rate',
-      type: 'item',
-      url: '/sample-page/',
-      icon: icons.IconHelp
     }
   ]
 };

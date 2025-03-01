@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import AWS from 'aws-sdk';
 import { connect } from 'react-redux';
-import { BusAlertTwoTone } from '@mui/icons-material';
 
 // ================================|| AUTHORIZE ||================================ //
 
