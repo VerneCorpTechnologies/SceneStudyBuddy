@@ -1,1 +1,3 @@
 # SceneStudyBuddy
+
+Scene Study Buddy is an AI-poweredscript reader designed to help you practice your lines in a dynamic and efficient way. It reads the Other characters' lines aloud, allowing you to focus solely on your performance. The AI waits for you to finish your lines before proceeding, simulating a more natural scene flow. This feature helps you rehearse in a realistic setting, providing the opportunity to work on timing, delivery, and emotional pacing without the need for anOther person to read the opposite lines. Whether you're preparing for auditions or perfecting a scene, Scene Study Buddy makes practice more flexible and engaging.
