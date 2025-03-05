@@ -14,52 +14,12 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
-import AWS from 'aws-sdk';
-import { connect } from 'react-redux';
 
 // ================================|| AUTHORIZE ||================================ //
 
 const Authorize = (username) => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  // success message from lambda
-  const [successMessage, setSuccessMessage] = useState(null);
-
-  console.log('username: ', username);
-
-  // Resend confirmation code
-  const resendAuthorizationCode = async (e) => {
-    e.preventDefault();
-  
-    const lambda = new AWS.Lambda();
-    const lambdaFunctionName = 'resendVerificationCode'; 
-    const params = {
-      FunctionName: lambdaFunctionName,
-      InvocationType: 'RequestResponse', 
-      Payload: JSON.stringify({  
-        username: username
-      }),
-    };
-  
-    try {
-      // Invoke the Lambda function
-      const response = await lambda.invoke(params).promise();
-      
-      // Handle the Lambda function response here
-      const responseBody = JSON.parse(response.Payload);
-  
-      // Additional handling based on the Lambda response...
-      if (responseBody.success) {
-        // Set the success message
-        setSuccessMessage('A new verification code has been sent to your email.');
-      } else {
-        // Handle Other cases or display an error message
-        setSuccessMessage('Request failed. Please return to the registration page.');
-      }
-    } catch (error) {
-      console.error('Error invoking Lambda:', error);
-    }
-  };
 
   return (
     <AuthWrapper>
@@ -103,16 +63,15 @@ const Authorize = (username) => {
                         },
                       }}
                       id="resend-verification-button"
-                      onClick={resendAuthorizationCode}
                       variant="subtitle1" 
                       >
                         Resend verification code
                       </Button>
-                      {successMessage && (
+                      {/* {successMessage && (
                         <div className="success-message">
                           {successMessage}
                         </div>
-                      )}
+                      )} */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -128,9 +87,4 @@ const Authorize = (username) => {
   );
 };
 
-// export default Authorize;
-const mapStateToProps = (state) => ({
-  username: state.user.username,
-});
-
-export default connect(mapStateToProps)(Authorize);
+export default Authorize;

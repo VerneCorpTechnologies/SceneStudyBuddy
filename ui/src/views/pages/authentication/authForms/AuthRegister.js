@@ -23,15 +23,9 @@ import AnimateButton from 'components/extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AWS from 'aws-sdk';
 import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { setUsername } from '../../../../store/actions';
-import { useDispatch } from 'react-redux';
 
 // ===========================|| REGISTER ||=========================== //
-// Set the AWS region
-console.log(`AWS Region: ${AWS.config.region}`);
 
 const AuthRegister = ({ ...Others }) => {
   const theme = useTheme();
@@ -81,46 +75,9 @@ const AuthRegister = ({ ...Others }) => {
   // take user to authorize page
   const navigate = useNavigate();
 
-  // Redux
-  const dispatch = useDispatch();
-
   // Signup user in Cognito
   const handleCognitoSignUp = async (e) => {
         e.preventDefault();
-
-        // store email in redux
-        dispatch(setUsername(formData.email));
-
-        try {
-          const lambda = new AWS.Lambda();
-    
-          const payload = {
-            body: JSON.stringify({
-              email: formData.email,
-              password: formData.password,
-            }),
-          };
-      
-          const params = {
-            FunctionName: 'registerUser',
-            InvocationType: 'RequestResponse',
-            Payload: JSON.stringify(payload),
-          };
-      
-          const response = await lambda.invoke(params).promise();
-
-          const responseBody = JSON.parse(response.Payload);
-      
-          if (responseBody.success) {
-            console.error('User registration successful:', responseBody.success);
-            navigate('/authorize');
-          } else {
-            console.error('User registration failed:', responseBody.error);
-            setSuccessMessage('Signup failed. Please try again.');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
       };
 
   return (
@@ -260,13 +217,13 @@ const AuthRegister = ({ ...Others }) => {
           </form>
         )}
       </Formik>
-      {successMessage && (
+      {/* {successMessage && (
         <div className="success-message">
           {successMessage}
         </div>
-      )}
+      )} */}
     </>
   );
 };
 
-export default connect(null, { setUsername })(AuthRegister);
+export default AuthRegister;

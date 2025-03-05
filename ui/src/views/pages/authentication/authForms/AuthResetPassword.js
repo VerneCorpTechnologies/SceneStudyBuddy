@@ -18,8 +18,6 @@ import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'components/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AWS from 'aws-sdk';
-import { connect } from 'react-redux';
 
 const AuthResetPassword = ({ username, ...Others }) => {
   const theme = useTheme();
@@ -66,35 +64,6 @@ const AuthResetPassword = ({ username, ...Others }) => {
 
   const handleCognitoLogin = async (e) => {
     e.preventDefault();
-    try {
-      const lambda = new AWS.Lambda();
-
-      const payload = {
-        verificationCode: formData.verificationCode,
-        username: formData.username,
-        password: formData.password,
-      };
-  
-      const params = {
-        FunctionName: 'resetPassword',
-        InvocationType: 'RequestResponse',
-        Payload: JSON.stringify(payload),
-      };
-  
-      const response = await lambda.invoke(params).promise();
-
-      const responseBody = JSON.parse(response.Payload);
-  
-      if (responseBody.success) {
-        console.error('User registration successful:', responseBody.success);
-        setSuccessMessage('Password successfully changed.');
-      } else {
-        console.error('User registration failed:', responseBody.error);
-        setSuccessMessage('Failed to change password. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
   };
 
   return (
@@ -270,17 +239,13 @@ const AuthResetPassword = ({ username, ...Others }) => {
           </form>
         )}
       </Formik>
-      {successMessage && (
+      {/* {successMessage && (
         <div className="success-message">
           {successMessage}
         </div>
-      )}
+      )} */}
     </>
   );
 };
-
-const mapStateToProps = (state) => ({
-    username: state.user.username,
-  });
   
-  export default connect(mapStateToProps)(AuthResetPassword);
+export default AuthResetPassword;

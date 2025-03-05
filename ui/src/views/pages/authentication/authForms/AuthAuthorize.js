@@ -14,9 +14,6 @@ import {
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'components/extended/AnimateButton';
-import AWS from 'aws-sdk';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 // ===========================|| AUTHORIZE ||=========================== //
 
@@ -42,46 +39,6 @@ const AuthAuthorize = ({ username, ...Others }) => {
     }));
   };
 
-  // Authorize user in Cognito
-  const handleAuthorization = async (e) => {
-    e.preventDefault();
-  
-    const lambda = new AWS.Lambda();
-    const lambdaFunctionName = 'authorizeUser'; 
-    const params = {
-      FunctionName: lambdaFunctionName,
-      InvocationType: 'RequestResponse', 
-      Payload: JSON.stringify({  
-        username: formData.username,      
-        verificationCode: formData.verificationCode 
-      }),
-    };
-  
-    try {
-      // Invoke the Lambda function
-      const response = await lambda.invoke(params).promise();
-      
-      // Handle the Lambda function response here
-      const responseBody = JSON.parse(response.Payload);
-  
-      // Additional handling based on the Lambda response...
-      if (responseBody.success) {
-        // Set the success message
-        setSuccessMessage(
-          <>
-            Authorization successful. You can now{' '}
-            <Link to="/login">log in</Link>.
-          </>
-        );
-      } else {
-        // Handle Other cases or display an error message
-        setSuccessMessage('Authorization failed. Please request a new verification code.');
-      }
-    } catch (error) {
-      console.error('Error invoking Lambda:', error);
-    }
-  };
-
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
@@ -104,7 +61,7 @@ const AuthAuthorize = ({ username, ...Others }) => {
         })}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-          <form noValidate onSubmit={handleAuthorization} {...Others}>
+          <form noValidate {...Others}>
             <Grid container spacing={matchDownSM ? 0 : 2}>
             <Grid item xs={12} sm={12}>
                 <FormControl fullWidth error={Boolean(touched.verificationCode && errors.verificationCode)} sx={{ ...theme.typography.customInput }}>
@@ -162,17 +119,13 @@ const AuthAuthorize = ({ username, ...Others }) => {
           </form>
         )}
       </Formik>
-      {successMessage && (
+      {/* {successMessage && (
         <div className="success-message">
           {successMessage}
         </div>
-      )}
+      )} */}
     </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  username: state.user.username,
-});
-
-export default connect(mapStateToProps)(AuthAuthorize);
+export default AuthAuthorize;
