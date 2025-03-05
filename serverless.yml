@@ -3,7 +3,7 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: python3.12
+  runtime: nodejs14.x
   stage: ${opt:stage, 'scenestudybuddy'}
   region: eu-west-2
   profile: vernecorptechnologies
@@ -120,9 +120,6 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.stage}-ui
-        # AccessControl: Private
-        # PublicAccessBlockConfiguration:
-        #   BlockPublicPolicy: false
         WebsiteConfiguration:
           IndexDocument: index.html
           ErrorDocument: index.html
