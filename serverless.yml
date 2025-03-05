@@ -7,33 +7,33 @@ provider:
   stage: ${opt:stage, 'scenestudybuddy'}
   region: eu-west-2
   profile: vernecorptechnologies
-  environment:
-    user_pool_id: { Ref: CognitoUserPool }
-    client_id: { Ref: CognitoUserPoolClient }
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - cognito-idp:AdminInitiateAuth
-        - cognito-idp:AdminCreateUser
-        - cognito-idp:AdminSetUserPassword
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - lambda:InvokeFunction
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - s3:PutBucketPolicy
-      Resource: "arn:aws:s3:::${self:provider.stage}-ui/*" 
-plugins:
-  - serverless-webpack
-  - serverless-s3-deploy
+  # environment:
+  #   user_pool_id: { Ref: CognitoUserPool }
+  #   client_id: { Ref: CognitoUserPoolClient }
+  # iamRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #       - cognito-idp:AdminInitiateAuth
+  #       - cognito-idp:AdminCreateUser
+  #       - cognito-idp:AdminSetUserPassword
+  #     Resource: "*"
+  #   - Effect: Allow
+  #     Action:
+  #       - lambda:InvokeFunction
+  #     Resource: "*"
+  #   - Effect: Allow
+  #     Action:
+  #       - s3:PutBucketPolicy
+  #     Resource: "arn:aws:s3:::${self:provider.stage}-ui/*" 
+# plugins:
+#   - serverless-webpack
+#   - serverless-s3-deploy
 
-custom:
-  region: eu-west-2
-  s3Deploy:
-    buckets:
-      - name: ${self:provider.stage}-ui
+# custom:
+#   region: eu-west-2
+#   s3Deploy:
+#     buckets:
+#       - name: ${self:provider.stage}-ui
 
 # functions:
 #   loginUser:
@@ -114,99 +114,89 @@ custom:
 #             - LambdaExecutionRole
 #             - Arn
 
-resources:
-  Resources:
-    S3Bucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:provider.stage}-ui
-        WebsiteConfiguration:
-          IndexDocument: index.html
-          ErrorDocument: index.html
-    ## Specifying the policies to make sure all files inside the Bucket are avaialble to CloudFront
-    S3BucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket:
-          Ref: S3Bucket
-        PolicyDocument:
-          Statement:
-            - Sid: PublicReadGetObject
-              Effect: Allow
-              Principal: "*"
-              Action:
-              - s3:GetObject
-              Resource: arn:aws:s3:::${self:provider.stage}-ui/*
-    ## Specifying the CloudFront Distribution to server your Web Application
-    CloudFrontDistribution:
-      Type: AWS::CloudFront::Distribution
-      Properties:
-        DistributionConfig:
-          Origins:
-            - DomainName: ${self:provider.stage}.s3.amazonaws.com
-              ## An identifier for the origin which must be unique within the distribution
-              Id: scenestudybuddy
-              CustomOriginConfig:
-                HTTPPort: 80
-                HTTPSPort: 443
-                OriginProtocolPolicy: https-only
-              ## In case you want to restrict the bucket access use S3OriginConfig and remove CustomOriginConfig
-              # S3OriginConfig:
-              #   OriginAccessIdentity: origin-access-identity/cloudfront/E127EXAMPLE51Z
-          Enabled: 'true'
-          ## Uncomment the following section in case you are using a custom domain
-          # Aliases:
-          # - mysite.example.com
-          DefaultRootObject: index.html
-          ## Since the Single Page App is taking care of the routing we need to make sure ever path is served with index.html
-          CustomErrorResponses:
-            - ErrorCode: 404
-              ResponseCode: 200
-              ResponsePagePath: /index.html
-          DefaultCacheBehavior:
-            AllowedMethods:
-              - DELETE
-              - GET
-              - HEAD
-              - OPTIONS
-              - PATCH
-              - POST
-              - PUT
-            TargetOriginId: scenestudybuddy
-            ForwardedValues:
-              QueryString: 'false'
-              Cookies:
-                Forward: none
-            ViewerProtocolPolicy: redirect-to-https
-          ViewerCertificate:
-            CloudFrontDefaultCertificate: 'true'
+# resources:
+#   Resources:
+#     S3Bucket:
+#       Type: AWS::S3::Bucket
+#       Properties:
+#         BucketName: ${self:provider.stage}-ui
+#         WebsiteConfiguration:
+#           IndexDocument: index.html
+#           ErrorDocument: index.html
+#     S3BucketPolicy:
+#       Type: AWS::S3::BucketPolicy
+#       Properties:
+#         Bucket:
+#           Ref: S3Bucket
+#         PolicyDocument:
+#           Statement:
+#             - Sid: PublicReadGetObject
+#               Effect: Allow
+#               Principal: "*"
+#               Action:
+#               - s3:GetObject
+#               Resource: arn:aws:s3:::${self:provider.stage}-ui/*
+#     CloudFrontDistribution:
+#       Type: AWS::CloudFront::Distribution
+#       Properties:
+#         DistributionConfig:
+#           Origins:
+#             - DomainName: ${self:provider.stage}.s3.amazonaws.com
+#               Id: scenestudybuddy
+#               CustomOriginConfig:
+#                 HTTPPort: 80
+#                 HTTPSPort: 443
+#                 OriginProtocolPolicy: https-only
+#           Enabled: 'true'
+#           DefaultRootObject: index.html
+#           CustomErrorResponses:
+#             - ErrorCode: 404
+#               ResponseCode: 200
+#               ResponsePagePath: /index.html
+#           DefaultCacheBehavior:
+#             AllowedMethods:
+#               - DELETE
+#               - GET
+#               - HEAD
+#               - OPTIONS
+#               - PATCH
+#               - POST
+#               - PUT
+#             TargetOriginId: scenestudybuddy
+#             ForwardedValues:
+#               QueryString: 'false'
+#               Cookies:
+#                 Forward: none
+#             ViewerProtocolPolicy: redirect-to-https
+#           ViewerCertificate:
+#             CloudFrontDefaultCertificate: 'true'
 
-    CognitoUserPool:
-      Type: AWS::Cognito::UserPool
-      Properties:
-        UserPoolName: ${self:provider.stage}-user-pool
-        UsernameAttributes:
-            - email
-        AutoVerifiedAttributes:
-            - email
-        Schema:
-          - Name: email
-            AttributeDataType: String
-            Mutable: false
-          - Name: password
-            AttributeDataType: String
-            Mutable: true
-    CognitoUserPoolClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-        ClientName: ${self:provider.stage}-user-pool-client
-        UserPoolId:
-            Ref: CognitoUserPool
-        ExplicitAuthFlows:
-          - ALLOW_USER_SRP_AUTH
-          - ALLOW_REFRESH_TOKEN_AUTH
-          - ALLOW_USER_PASSWORD_AUTH
-        GenerateSecret: false
+#     CognitoUserPool:
+#       Type: AWS::Cognito::UserPool
+#       Properties:
+#         UserPoolName: ${self:provider.stage}-user-pool
+#         UsernameAttributes:
+#             - email
+#         AutoVerifiedAttributes:
+#             - email
+#         Schema:
+#           - Name: email
+#             AttributeDataType: String
+#             Mutable: false
+#           - Name: password
+#             AttributeDataType: String
+#             Mutable: true
+#     CognitoUserPoolClient:
+#       Type: AWS::Cognito::UserPoolClient
+#       Properties:
+#         ClientName: ${self:provider.stage}-user-pool-client
+#         UserPoolId:
+#             Ref: CognitoUserPool
+#         ExplicitAuthFlows:
+#           - ALLOW_USER_SRP_AUTH
+#           - ALLOW_REFRESH_TOKEN_AUTH
+#           - ALLOW_USER_PASSWORD_AUTH
+#         GenerateSecret: false
     # LambdaExecutionRole:
     #   Type: AWS::IAM::Role
     #   Properties:
